@@ -1,4 +1,4 @@
-# unittest - Python Unit Testing Tutorial
+# Python Unit Testing Tutorial
 
 This is an update to Doug Hellman's excellent PyMOTW article found here:
 http://www.doughellmann.com/PyMOTW/unittest/index.html
