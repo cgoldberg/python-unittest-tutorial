@@ -38,7 +38,7 @@ if __name__ == '__main__':
 at the bottom of each test file, then simply run the script directly from the command line:
 
 ```
-$ python unittest_simple.py
+$ python test_simple.py
 
 .
 ----------------------------------------------------------------------
@@ -50,7 +50,7 @@ OK
 This abbreviated output includes the amount of time the tests took, along with a status indicator for each test (the "." on the first line of output means that a test passed). For more detailed test results, include the `-v` option:
 
 ```
-$ python unittest_simple.py -v
+$ python test_simple.py -v
 
 test (__main__.SimplisticTest) ... ok
 
@@ -105,7 +105,7 @@ if __name__ == '__main__':
 When a test fails or generates an error, the traceback is included in the output.
 
 ```
-$ python unittest_outcomes.py
+$ python test_outcomes.py
 
 
 EF.
@@ -113,7 +113,7 @@ EF.
 ERROR: test_error (__main__.OutcomesTest)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "unittest_outcomes.py", line 13, in test_error
+  File "test_outcomes.py", line 13, in test_error
     raise RuntimeError('Test error!')
 RuntimeError: Test error!
 
@@ -121,7 +121,7 @@ RuntimeError: Test error!
 FAIL: test_fail (__main__.OutcomesTest)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "unittest_outcomes.py", line 9, in test_fail
+  File "test_outcomes.py", line 9, in test_fail
     self.assertTrue(False)
 AssertionError: False is not true
 
@@ -146,7 +146,7 @@ if __name__ == '__main__':
 ```
 
 ```
-$ python unittest_failwithmessage.py -v
+$ python test_failwithmessage.py -v
 
 testFail (__main__.FailureMessageTest) ... FAIL
 
@@ -154,7 +154,7 @@ testFail (__main__.FailureMessageTest) ... FAIL
 FAIL: test_fail (__main__.FailureMessageTest)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "unittest_failwithmessage.py", line 6, in test_fail
+  File "test_failwithmessage.py", line 6, in test_fail
     self.assertTrue(False, 'failure message goes here')
 AssertionError: failure message goes here
 
@@ -184,7 +184,7 @@ if __name__ == '__main__':
 ```
 
 ```
-$ python unittest_truth.py -v
+$ python test_truth.py -v
 
 test_assert_false (__main__.TruthTest) ... ok
 test_assert_true (__main__.TruthTest) ... ok
@@ -257,7 +257,7 @@ if __name__ == '__main__':
 And when these tests are run:
 
 ```
-$ python unittest_notequal.py -v
+$ python test_notequal.py -v
 
 testEqual (__main__.InequalityTest) ... FAIL
 testNotEqual (__main__.InequalityTest) ... FAIL
@@ -266,7 +266,7 @@ testNotEqual (__main__.InequalityTest) ... FAIL
 FAIL: testEqual (__main__.InequalityTest)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "unittest_notequal.py", line 36, in testEqual
+  File "test_notequal.py", line 36, in testEqual
     self.failIfEqual(1, 3-2)
 AssertionError: 1 == 1
 
@@ -274,7 +274,7 @@ AssertionError: 1 == 1
 FAIL: testNotEqual (__main__.InequalityTest)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "unittest_notequal.py", line 39, in testNotEqual
+  File "test_notequal.py", line 39, in testNotEqual
     self.failUnlessEqual(2, 3-2)
 AssertionError: 2 != 1
 
@@ -328,7 +328,7 @@ if __name__ == '__main__':
 The results for both are the same, but the second test using `failUnlessRaises()` is more succinct.
 
 ```
-$ python unittest_exception.py -v
+$ python test_exception.py -v
 
 testFailUnlessRaises (__main__.ExceptionTest) ... ok
 testTrapLocally (__main__.ExceptionTest) ... ok
@@ -369,7 +369,7 @@ if __name__ == '__main__':
 When this sample test is run, you can see the order of execution of the fixture and test methods:
 
 ```
-$ python unittest_fixtures.py
+$ python test_fixtures.py
 
 .
 ----------------------------------------------------------------------
