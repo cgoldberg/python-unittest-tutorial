@@ -47,7 +47,7 @@ Ran 1 test in 0.000s
 OK
 ```
 
-This abbreviated output includes the amount of time the tests took, along with a status indicator for each test (the "." on the first line of output means that a test passed). For more detailed test results, include the -v option:
+This abbreviated output includes the amount of time the tests took, along with a status indicator for each test (the "." on the first line of output means that a test passed). For more detailed test results, include the `-v` option:
 
 ```
 $ python unittest_simple.py -v
@@ -65,19 +65,19 @@ OK
 Tests have 3 possible outcomes:
 
 ```
-... ok
+ok
 ```
 
 The test passes.
 
 ```
-... FAIL
+FAIL
 ```
 
 The test does not pass, and raises an `AssertionError` exception.
 
 ```
-... ERROR
+ERROR
 ```
 
 The test raises an exception other than `AssertionError`.
@@ -113,7 +113,7 @@ EF.
 ERROR: test_error (__main__.OutcomesTest)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "unittest_outcomes.py", line 14, in test_error
+  File "unittest_outcomes.py", line 13, in test_error
     raise RuntimeError('Test error!')
 RuntimeError: Test error!
 
@@ -121,7 +121,7 @@ RuntimeError: Test error!
 FAIL: test_fail (__main__.OutcomesTest)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "unittest_outcomes.py", line 11, in test_fail
+  File "unittest_outcomes.py", line 9, in test_fail
     self.assertTrue(False)
 AssertionError: False is not true
 
@@ -131,7 +131,7 @@ Ran 3 tests in 0.000s
 FAILED (failures=1, errors=1)
 ```
 
-In the example above, `testFail()` fails and the traceback shows the line with the failure code. It is up to the person reading the test output to look at the code to figure out the semantic meaning of the failed test, though. To make it easier to understand the nature of a test failure, the fail*() and `assert*()` methods all accept an argument msg, which can be used to produce a more detailed error message.
+In the example above, `testFail()` fails and the traceback shows the line with the failure code. It is up to the person reading the test output to look at the code to figure out the semantic meaning of the failed test, though. To make it easier to understand the nature of a test failure, the `fail*()` and `assert*()` methods all accept an argument msg, which can be used to produce a more detailed error message.
 
 ```python
 import unittest
@@ -151,10 +151,10 @@ $ python unittest_failwithmessage.py -v
 testFail (__main__.FailureMessageTest) ... FAIL
 
 ======================================================================
-FAIL: testFail (__main__.FailureMessageTest)
+FAIL: test_fail (__main__.FailureMessageTest)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "unittest_failwithmessage.py", line 8, in test_fail
+  File "unittest_failwithmessage.py", line 6, in test_fail
     self.assertTrue(False, 'failure message goes here')
 AssertionError: failure message goes here
 
