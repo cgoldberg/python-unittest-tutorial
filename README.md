@@ -1,8 +1,10 @@
 # Python Unit Testing Tutorial
 
 This is an update to Doug Hellman's excellent PyMOTW article found here:
-http://www.doughellmann.com/PyMOTW/unittest/index.html
-The code has been updated to reflect Python 2.7 and Python 3.x.
+
+* [PyMOTW - unittest (2007)](http://www.doughellmann.com/PyMOTW/unittest/index.html)
+
+The code and examples have been updated to reflect Python 3.3.
 
 ## unittest - Automated testing framework
 
@@ -10,7 +12,7 @@ Python's `unittest` module, sometimes referred to as 'PyUnit', is based on the X
 
 ## Basic Test Structure
 
-Tests, as defined by unittest, have two parts: code to manage test "fixtures", and the test itself. Individual tests are created by subclassing TestCase and overriding or adding appropriate methods. For example,
+Tests, as defined by unittest, have two parts: code to manage test "fixtures", and the test itself. Individual tests are created by subclassing `TestCase` and overriding or adding appropriate methods. For example,
 
 ```python
 import unittest
@@ -38,7 +40,7 @@ if __name__ == '__main__':
 at the bottom of each test file, then simply run the script directly from the command line:
 
 ```
-$ python test_simple.py
+$ python3 test_simple.py
 
 .
 ----------------------------------------------------------------------
@@ -50,7 +52,7 @@ OK
 This abbreviated output includes the amount of time the tests took, along with a status indicator for each test (the "." on the first line of output means that a test passed). For more detailed test results, include the `-v` option:
 
 ```
-$ python test_simple.py -v
+$ python3 test_simple.py -v
 
 test (__main__.SimplisticTest) ... ok
 
@@ -105,7 +107,7 @@ if __name__ == '__main__':
 When a test fails or generates an error, the traceback is included in the output.
 
 ```
-$ python test_outcomes.py
+$ python3 test_outcomes.py
 
 
 EF.
@@ -146,7 +148,7 @@ if __name__ == '__main__':
 ```
 
 ```
-$ python test_failwithmessage.py -v
+$ python3 test_failwithmessage.py -v
 
 testFail (__main__.FailureMessageTest) ... FAIL
 
@@ -184,7 +186,7 @@ if __name__ == '__main__':
 ```
 
 ```
-$ python test_truth.py -v
+$ python3 test_truth.py -v
 
 test_assert_false (__main__.TruthTest) ... ok
 test_assert_true (__main__.TruthTest) ... ok
@@ -199,8 +201,8 @@ OK
 
 The `TestCase` class provides a number of methods to check for and report failures:
 
-* [`TestCase` class](http://docs.python.org/2/library/unittest.html#unittest.TestCase)
-* [`assert*` methods](http://docs.python.org/2/library/unittest.html#assert-methods)
+* [`TestCase` class](http://docs.python.org/3.3/library/unittest.html#unittest.TestCase)
+* [`assert*` methods](http://docs.python.org/3.3/library/unittest.html#assert-methods)
 
 ### Common Assertions
 
@@ -230,9 +232,15 @@ The `TestCase` class provides a number of methods to check for and report failur
   <tr><td><code>assertGreaterEqual(a, b, msg=None)</code></td></tr>
   <tr><td><code>assertLess(a, b, msg=None)</code></td></tr>
   <tr><td><code>assertLessEqual(a, b, msg=None)</code></td></tr>
-  <tr><td><code>assertRegexpMatches(text, regexp, msg=None)</code></td></tr>
-  <tr><td><code>assertNotRegexpMatches(text, regexp, msg=None)</code></td></tr>
-  <tr><td><code>assertItemsEqual(a, b, msg=None)</code></td></tr>
+  <tr><td><code>assertRegex(text, regexp, msg=None)</code></td></tr>
+  <tr><td><code>assertNotRegex(text, regexp, msg=None)</code></td></tr>
+  <tr><td><code>assertCountEqual(a, b, msg=None)</code></td></tr>
+  <tr><td><code>assertMultiLineEqual(a, b, msg=None)</code></td></tr>
+  <tr><td><code>assertSequenceEqual(a, b, msg=None)</code></td></tr>
+  <tr><td><code>assertListEqual(a, b, msg=None)</code></td></tr>
+  <tr><td><code>assertTupleEqual(a, b, msg=None)</code></td></tr>
+  <tr><td><code>assertSetEqual(a, b, msg=None)</code></td></tr>
+  <tr><td><code>assertDictEqual(a, b, msg=None)</code></td></tr>
 </table>
 
 ### Failure Messages
@@ -257,7 +265,7 @@ if __name__ == '__main__':
 And when these tests are run:
 
 ```
-$ python test_notequal.py -v
+$ python3 test_notequal.py -v
 
 testEqual (__main__.InequalityTest) ... FAIL
 testNotEqual (__main__.InequalityTest) ... FAIL
@@ -286,7 +294,7 @@ FAILED (failures=2)
 
 All the assert methods above accept a msg argument that, if specified, is used as the error message on failure.
 
-## Testing for Exceptions
+## Testing for Exceptions (and Warnings)
 
 The `TestCase` class provides methods to check for expected exceptions:
 
@@ -296,7 +304,9 @@ The `TestCase` class provides methods to check for expected exceptions:
 <table>
   <tr><th>Method</th></tr>
   <tr><td><code>assertRaises(exception)</code></td></tr>
-  <tr><td><code>assertRaisesRegexp(exception, regexp)</code></td></tr>
+  <tr><td><code>assertRaisesRegex(exception, regexp)</code></td></tr>
+  <tr><td><code>assertWarns(warn, fun, *args, **kwds)</code></td></tr>
+  <tr><td><code>assertWarnsRegex(warn, fun, *args, **kwds)</code></td></tr>
 </table>
 
 As previously mentioned, if a test raises an exception other than `AssertionError` it is treated as an error. This is very useful for uncovering mistakes while you are modifying code which has existing test coverage. There are circumstances, however, in which you want the test to verify that some code does produce an exception. For example, if an invalid value is given to an attribute of an object. In such cases, `failUnlessRaises()` makes the code more clear than trapping the exception yourself. Compare these two tests:
@@ -305,12 +315,11 @@ As previously mentioned, if a test raises an exception other than `AssertionErro
 import unittest
 
 def raises_error(*args, **kwds):
-    print args, kwds
-    raise ValueError('Invalid value: ' + str(args) + str(kwds))
+    raise ValueError('Invalid value: %s%s' % (args, kwds))
 
 class ExceptionTest(unittest.TestCase):
 
-    def testTrapLocally(self):
+    def test_trap_locally(self):
         try:
             raises_error('a', b='c')
         except ValueError:
@@ -318,27 +327,24 @@ class ExceptionTest(unittest.TestCase):
         else:
             self.fail('Did not see ValueError')
 
-    def testFailUnlessRaises(self):
-        self.failUnlessRaises(ValueError, raises_error, 'a', b='c')
+    def test_assert_raises(self):
+        self.assertRaises(ValueError, raises_error, 'a', b='c')
 
 if __name__ == '__main__':
     unittest.main()
+
+The results for both are the same, but the second test using `assertRaises()` is more succinct.
+
 ```
+$ python3 test_exception.py -v
 
-The results for both are the same, but the second test using `failUnlessRaises()` is more succinct.
-
-```
-$ python test_exception.py -v
-
-testFailUnlessRaises (__main__.ExceptionTest) ... ok
-testTrapLocally (__main__.ExceptionTest) ... ok
+test_assert_raises (__main__.ExceptionTest) ... ok
+test_trap_locally (__main__.ExceptionTest) ... ok
 
 ----------------------------------------------------------------------
 Ran 2 tests in 0.000s
 
 OK
-('a',) {'b': 'c'}
-('a',) {'b': 'c'}
 ```
 
 ## Test Fixtures
@@ -351,15 +357,15 @@ import unittest
 class FixturesTest(unittest.TestCase):
 
     def setUp(self):
-        print 'In setUp()'
+        print('In setUp()')
         self.fixture = range(1, 10)
 
     def tearDown(self):
-        print 'In tearDown()'
+        print('In tearDown()')
         del self.fixture
 
     def test(self):
-        print 'in test()'
+        print('in test()')
         self.assertEqual(self.fixture, range(1, 10))
 
 if __name__ == '__main__':
@@ -369,7 +375,7 @@ if __name__ == '__main__':
 When this sample test is run, you can see the order of execution of the fixture and test methods:
 
 ```
-$ python test_fixtures.py
+$ python3 test_fixtures.py
 
 .
 ----------------------------------------------------------------------
