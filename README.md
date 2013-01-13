@@ -4,7 +4,12 @@ This is an update to Doug Hellman's excellent PyMOTW article found here:
 
 * [PyMOTW - unittest (2007)](http://www.doughellmann.com/PyMOTW/unittest/index.html)
 
-The code and examples have been updated to reflect Python 3.3.
+The code and examples here have been updated by [Corey Goldberg](https://github.com/cgoldberg) to reflect Python 3.3.
+
+also see:
+* Python Standard Library Documentation- Development Tools - [unittest](http://docs.python.org/3.3/library/unittest.html)
+  
+----
 
 ## unittest - Automated testing framework
 
