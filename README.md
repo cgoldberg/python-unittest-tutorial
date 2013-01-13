@@ -156,7 +156,7 @@ if __name__ == '__main__':
 ```
 $ python3 test_failwithmessage.py -v
 
-testFail (__main__.FailureMessageTest) ... FAIL
+test_fail (__main__.FailureMessageTest) ... FAIL
 
 ======================================================================
 FAIL: test_fail (__main__.FailureMessageTest)
