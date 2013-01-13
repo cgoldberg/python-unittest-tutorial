@@ -338,6 +338,7 @@ class ExceptionTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+```
 
 The results for both are the same, but the second test using `assertRaises()` is more succinct.
 
