@@ -13,7 +13,7 @@ class ExceptionTest(unittest.TestCase):
         else:
             self.fail('Did not see ValueError')
 
-    def test_fail_unless_raises(self):
+    def test_assert_raises(self):
         self.assertRaises(ValueError, raises_error, 'a', b='c')
 
 if __name__ == '__main__':
