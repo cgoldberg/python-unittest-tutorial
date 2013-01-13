@@ -6,8 +6,9 @@ This is an update to Doug Hellman's excellent PyMOTW article found here:
 
 The code and examples here have been updated by [Corey Goldberg](https://github.com/cgoldberg) to reflect Python 3.3.
 
-also see:
-* Python Standard Library Documentation- Development Tools - [unittest](http://docs.python.org/3.3/library/unittest.html)
+further reading:
+
+* [unittest - Python Standard Library 3.3 Documentation](http://docs.python.org/3.3/library/unittest.html)
   
 ----
 
