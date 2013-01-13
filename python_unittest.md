@@ -2,7 +2,7 @@
 
 This is an update to Doug Hellman's excellent PyMOTW article found here:
 http://www.doughellmann.com/PyMOTW/unittest/index.html
-The code has been updated to reflect current idiomatic Python 2.7. (deprecated/new methods, etc)
+The code has been updated to reflect Python 2.7 and Python 3.x.
 
 ## unittest - Automated testing framework
 
@@ -235,7 +235,7 @@ The `TestCase` class provides a number of methods to check for and report failur
   <tr><td><code>assertItemsEqual(a, b, msg=None)</code></td></tr>
 </table>
 
-### Failure messages
+### Failure Messages
 
 These assertions are handy, since the values being compared appear in the failure message when a test fails.
 
@@ -245,10 +245,10 @@ import unittest
 class InequalityTest(unittest.TestCase):
 
     def testEqual(self):
-        self.failIfEqual(1, 3-2)
+        self.assertNotEqual(1, 3-2)
 
     def testNotEqual(self):
-        self.failUnlessEqual(2, 3-2)
+        self.assertEqual(2, 3-2)
 
 if __name__ == '__main__':
     unittest.main()
@@ -263,23 +263,23 @@ testEqual (__main__.InequalityTest) ... FAIL
 testNotEqual (__main__.InequalityTest) ... FAIL
 
 ======================================================================
-FAIL: testEqual (__main__.InequalityTest)
+FAIL: test_equal (__main__.InequalityTest)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "test_notequal.py", line 36, in testEqual
-    self.failIfEqual(1, 3-2)
+  File "test_notequal.py", line 7, in test_equal
+    self.assertNotEqual(1, 3-2)
 AssertionError: 1 == 1
 
 ======================================================================
-FAIL: testNotEqual (__main__.InequalityTest)
+FAIL: test_not_equal (__main__.InequalityTest)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "test_notequal.py", line 39, in testNotEqual
-    self.failUnlessEqual(2, 3-2)
+  File "test_notequal.py", line 10, in test_not_equal
+    self.assertEqual(2, 3-2)
 AssertionError: 2 != 1
 
 ----------------------------------------------------------------------
-Ran 2 tests in 0.001s
+Ran 2 tests in 0.000s
 
 FAILED (failures=2)
 ```
