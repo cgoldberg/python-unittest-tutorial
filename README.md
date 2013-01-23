@@ -304,8 +304,8 @@ All the assert methods above accept a `msg` argument that, if specified, is used
 
 The `TestCase` class provides methods to check for expected exceptions:
 
-* [`TestCase` class](http://docs.python.org/2/library/unittest.html#unittest.TestCase)
-* [`assert*` methods](http://docs.python.org/2/library/unittest.html#assert-methods)
+* [`TestCase` class](http://docs.python.org/3.3/library/unittest.html#unittest.TestCase)
+* [`assert*` methods](http://docs.python.org/3.3/library/unittest.html#assert-methods)
 
 <table>
   <tr><th>Method</th></tr>
