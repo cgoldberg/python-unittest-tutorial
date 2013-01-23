@@ -139,7 +139,7 @@ Ran 3 tests in 0.000s
 FAILED (failures=1, errors=1)
 ```
 
-In the example above, `testFail()` fails and the traceback shows the line with the failure code. It is up to the person reading the test output to look at the code to figure out the semantic meaning of the failed test, though. To make it easier to understand the nature of a test failure, the `fail*()` and `assert*()` methods all accept an argument msg, which can be used to produce a more detailed error message.
+In the example above, `test_fail()` fails and the traceback shows the line with the failure code. It is up to the person reading the test output to look at the code to figure out the semantic meaning of the failed test, though. To make it easier to understand the nature of a test failure, the `assert*()` methods all accept an argument `msg`, which can be used to produce a more detailed error message.
 
 ```python
 import unittest
@@ -174,7 +174,7 @@ FAILED (failures=1)
 
 ## Asserting Truth
 
-Most tests assert the truth of some condition. There are a few different ways to write truth-checking tests, depending on the perspective of the test author and the desired outcome of the code being tested. If the code produces a value which can be evaluated as true, the methods `failUnless()` and `assertTrue()` should be used. If the code produces a false value, the methods `failIf()` and `assertFalse()` make more sense.
+Most tests assert the truth of some condition. There are a few different ways to write truth-checking tests, depending on the perspective of the test author and the desired outcome of the code being tested. If the code produces a value which can be evaluated as true, the method `assertTrue()` should be used. If the code produces a false value, the method `assertFalse()` makes more sense.
 
 ```python
 import unittest
@@ -298,7 +298,7 @@ Ran 2 tests in 0.000s
 FAILED (failures=2)
 ```
 
-All the assert methods above accept a msg argument that, if specified, is used as the error message on failure.
+All the assert methods above accept a `msg` argument that, if specified, is used as the error message on failure.
 
 ## Testing for Exceptions (and Warnings)
 
@@ -315,7 +315,7 @@ The `TestCase` class provides methods to check for expected exceptions:
   <tr><td><code>assertWarnsRegex(warn, fun, *args, **kwds)</code></td></tr>
 </table>
 
-As previously mentioned, if a test raises an exception other than `AssertionError` it is treated as an error. This is very useful for uncovering mistakes while you are modifying code which has existing test coverage. There are circumstances, however, in which you want the test to verify that some code does produce an exception. For example, if an invalid value is given to an attribute of an object. In such cases, `failUnlessRaises()` makes the code more clear than trapping the exception yourself. Compare these two tests:
+As previously mentioned, if a test raises an exception other than `AssertionError` it is treated as an error. This is very useful for uncovering mistakes while you are modifying code which has existing test coverage. There are circumstances, however, in which you want the test to verify that some code does produce an exception. For example, if an invalid value is given to an attribute of an object. In such cases, `assertRaises()` makes the code more clear than trapping the exception yourself. Compare these two tests:
 
 ```python
 import unittest
