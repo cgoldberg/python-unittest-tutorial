@@ -1,0 +1,413 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Python-unittest-tutorial by cgoldberg</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Python-unittest-tutorial</h1>
+        <p class="header">python `unittest` tutorial (unittest PyMOTW for Python 3.3)</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/cgoldberg/python-unittest-tutorial/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/cgoldberg/python-unittest-tutorial/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/cgoldberg/python-unittest-tutorial">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/cgoldberg">cgoldberg</a></p>
+
+
+      </header>
+      <section>
+        <h1>Python Unit Testing Tutorial</h1>
+
+<p>This is an update to Doug Hellman's excellent PyMOTW article found here:</p>
+
+<ul>
+<li><a href="http://www.doughellmann.com/PyMOTW/unittest/index.html">PyMOTW - unittest (2007)</a></li>
+</ul><p>The code and examples here have been updated by <a href="https://github.com/cgoldberg">Corey Goldberg</a> to reflect Python 3.3.</p>
+
+<p>further reading:</p>
+
+<ul>
+<li><a href="http://docs.python.org/3.3/library/unittest.html">unittest - Python Standard Library 3.3 Documentation</a></li>
+</ul><hr><h2>unittest - Automated testing framework</h2>
+
+<p>Python's <code>unittest</code> module, sometimes referred to as 'PyUnit', is based on the XUnit framework design by Kent Beck and Erich Gamma. The same pattern is repeated in many other languages, including C, Perl, Java, and Smalltalk. The framework implemented by <code>unittest</code> supports fixtures, test suites, and a test runner to enable automated testing for your code.</p>
+
+<h2>Basic Test Structure</h2>
+
+<p>Tests, as defined by unittest, have two parts: code to manage test "fixtures", and the test itself. Individual tests are created by subclassing <code>TestCase</code> and overriding or adding appropriate methods. For example,</p>
+
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="k">class</span> <span class="nc">SimplisticTest</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+<p>In this case, the <code>SimplisticTest</code> has a single <code>test()</code> method, which would fail if True is ever False.</p>
+
+<h2>Running Tests</h2>
+
+<p>The easiest way to run unittest tests is to include:</p>
+
+<div class="highlight"><pre><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+<p>at the bottom of each test file, then simply run the script directly from the command line:</p>
+
+<pre><code>$ python3 test_simple.py
+
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
+</code></pre>
+
+<p>This abbreviated output includes the amount of time the tests took, along with a status indicator for each test (the "." on the first line of output means that a test passed). For more detailed test results, include the <code>-v</code> option:</p>
+
+<pre><code>$ python3 test_simple.py -v
+
+test (__main__.SimplisticTest) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
+</code></pre>
+
+<h2>Test Outcomes</h2>
+
+<p>Tests have 3 possible outcomes:</p>
+
+<pre><code>ok
+</code></pre>
+
+<p>The test passes.</p>
+
+<pre><code>FAIL
+</code></pre>
+
+<p>The test does not pass, and raises an <code>AssertionError</code> exception.</p>
+
+<pre><code>ERROR
+</code></pre>
+
+<p>The test raises an exception other than <code>AssertionError</code>.</p>
+
+<p>There is no explicit way to cause a test to "pass", so a test's status depends on the presence (or absence) of an exception.</p>
+
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="k">class</span> <span class="nc">OutcomesTest</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">test_pass</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_fail</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_error</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">'Test error!'</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+<p>When a test fails or generates an error, the traceback is included in the output.</p>
+
+<pre><code>$ python3 test_outcomes.py
+
+
+EF.
+======================================================================
+ERROR: test_error (__main__.OutcomesTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_outcomes.py", line 13, in test_error
+    raise RuntimeError('Test error!')
+RuntimeError: Test error!
+
+======================================================================
+FAIL: test_fail (__main__.OutcomesTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_outcomes.py", line 9, in test_fail
+    self.assertTrue(False)
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.000s
+
+FAILED (failures=1, errors=1)
+</code></pre>
+
+<p>In the example above, <code>test_fail()</code> fails and the traceback shows the line with the failure code. It is up to the person reading the test output to look at the code to figure out the semantic meaning of the failed test, though. To make it easier to understand the nature of a test failure, the <code>assert*()</code> methods all accept an argument <code>msg</code>, which can be used to produce a more detailed error message.</p>
+
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="k">class</span> <span class="nc">FailureMessageTest</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">test_fail</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="bp">False</span><span class="p">,</span> <span class="s">'failure message goes here'</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+<pre><code>$ python3 test_failwithmessage.py -v
+
+test_fail (__main__.FailureMessageTest) ... FAIL
+
+======================================================================
+FAIL: test_fail (__main__.FailureMessageTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_failwithmessage.py", line 6, in test_fail
+    self.assertTrue(False, 'failure message goes here')
+AssertionError: failure message goes here
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (failures=1)
+</code></pre>
+
+<h2>Asserting Truth</h2>
+
+<p>Most tests assert the truth of some condition. There are a few different ways to write truth-checking tests, depending on the perspective of the test author and the desired outcome of the code being tested. If the code produces a value which can be evaluated as true, the method <code>assertTrue()</code> should be used. If the code produces a false value, the method <code>assertFalse()</code> makes more sense.</p>
+
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="k">class</span> <span class="nc">TruthTest</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">test_assert_true</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_assert_false</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertFalse</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+<pre><code>$ python3 test_truth.py -v
+
+test_assert_false (__main__.TruthTest) ... ok
+test_assert_true (__main__.TruthTest) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.000s
+
+OK
+</code></pre>
+
+<h2>Assertion Methods</h2>
+
+<p>The <code>TestCase</code> class provides a number of methods to check for and report failures:</p>
+
+<ul>
+<li><a href="http://docs.python.org/3.3/library/unittest.html#unittest.TestCase"><code>TestCase</code> class</a></li>
+<li><a href="http://docs.python.org/3.3/library/unittest.html#assert-methods"><code>assert*</code> methods</a></li>
+</ul><h3>Common Assertions</h3>
+
+<table>
+<tr><th>Method</th></tr>
+<tr><td><code>assertTrue(x, msg=None)</code></td></tr>
+<tr><td><code>assertFalse(x, msg=None)</code></td></tr>
+<tr><td><code>assertIsNone(x, msg=None)</code></td></tr>
+<tr><td><code>assertIsNotNone(x, msg=None)</code></td></tr>
+<tr><td><code>assertEqual(a, b, msg=None)</code></td></tr>
+<tr><td><code>assertNotEqual(a, b, msg=None)</code></td></tr>
+<tr><td><code>assertIs(a, b, msg=None)</code></td></tr>
+<tr><td><code>assertIsNot(a, b, msg=None)</code></td></tr>
+<tr><td><code>assertIn(a, b, msg=None)</code></td></tr>
+<tr><td><code>assertNotIn(a, b, msg=None)</code></td></tr>
+<tr><td><code>assertIsInstance(a, b, msg=None)</code></td></tr>
+<tr><td><code>assertNotIsInstance(a, b, msg=None)</code></td></tr>
+</table><h3>Other Assertions</h3>
+
+<table>
+<tr><th>Method</th></tr>
+<tr><td><code>assertAlmostEqual(a, b, places=7, msg=None, delta=None)</code></td></tr>
+<tr><td><code>assertNotAlmostEqual(a, b, places=7, msg=None, delta=None)</code></td></tr>
+<tr><td><code>assertGreater(a, b, msg=None)</code></td></tr>
+<tr><td><code>assertGreaterEqual(a, b, msg=None)</code></td></tr>
+<tr><td><code>assertLess(a, b, msg=None)</code></td></tr>
+<tr><td><code>assertLessEqual(a, b, msg=None)</code></td></tr>
+<tr><td><code>assertRegex(text, regexp, msg=None)</code></td></tr>
+<tr><td><code>assertNotRegex(text, regexp, msg=None)</code></td></tr>
+<tr><td><code>assertCountEqual(a, b, msg=None)</code></td></tr>
+<tr><td><code>assertMultiLineEqual(a, b, msg=None)</code></td></tr>
+<tr><td><code>assertSequenceEqual(a, b, msg=None)</code></td></tr>
+<tr><td><code>assertListEqual(a, b, msg=None)</code></td></tr>
+<tr><td><code>assertTupleEqual(a, b, msg=None)</code></td></tr>
+<tr><td><code>assertSetEqual(a, b, msg=None)</code></td></tr>
+<tr><td><code>assertDictEqual(a, b, msg=None)</code></td></tr>
+</table><h3>Failure Messages</h3>
+
+<p>These assertions are handy, since the values being compared appear in the failure message when a test fails.</p>
+
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="k">class</span> <span class="nc">InequalityTest</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">testEqual</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertNotEqual</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">testNotEqual</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+<p>And when these tests are run:</p>
+
+<pre><code>$ python3 test_notequal.py -v
+
+testEqual (__main__.InequalityTest) ... FAIL
+testNotEqual (__main__.InequalityTest) ... FAIL
+
+======================================================================
+FAIL: test_equal (__main__.InequalityTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_notequal.py", line 7, in test_equal
+    self.assertNotEqual(1, 3-2)
+AssertionError: 1 == 1
+
+======================================================================
+FAIL: test_not_equal (__main__.InequalityTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_notequal.py", line 10, in test_not_equal
+    self.assertEqual(2, 3-2)
+AssertionError: 2 != 1
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.000s
+
+FAILED (failures=2)
+</code></pre>
+
+<p>All the assert methods above accept a <code>msg</code> argument that, if specified, is used as the error message on failure.</p>
+
+<h2>Testing for Exceptions (and Warnings)</h2>
+
+<p>The <code>TestCase</code> class provides methods to check for expected exceptions:</p>
+
+<ul>
+<li><a href="http://docs.python.org/2/library/unittest.html#unittest.TestCase"><code>TestCase</code> class</a></li>
+<li><a href="http://docs.python.org/2/library/unittest.html#assert-methods"><code>assert*</code> methods</a></li>
+</ul><table>
+<tr><th>Method</th></tr>
+<tr><td><code>assertRaises(exception)</code></td></tr>
+<tr><td><code>assertRaisesRegex(exception, regexp)</code></td></tr>
+<tr><td><code>assertWarns(warn, fun, *args, **kwds)</code></td></tr>
+<tr><td><code>assertWarnsRegex(warn, fun, *args, **kwds)</code></td></tr>
+</table><p>As previously mentioned, if a test raises an exception other than <code>AssertionError</code> it is treated as an error. This is very useful for uncovering mistakes while you are modifying code which has existing test coverage. There are circumstances, however, in which you want the test to verify that some code does produce an exception. For example, if an invalid value is given to an attribute of an object. In such cases, <code>assertRaises()</code> makes the code more clear than trapping the exception yourself. Compare these two tests:</p>
+
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="k">def</span> <span class="nf">raises_error</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">'Invalid value: </span><span class="si">%s%s</span><span class="s">'</span> <span class="o">%</span> <span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwds</span><span class="p">))</span>
+
+<span class="k">class</span> <span class="nc">ExceptionTest</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">test_trap_locally</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">raises_error</span><span class="p">(</span><span class="s">'a'</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s">'c'</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="s">'Did not see ValueError'</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_assert_raises</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">raises_error</span><span class="p">,</span> <span class="s">'a'</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="s">'c'</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+<p>The results for both are the same, but the second test using <code>assertRaises()</code> is more succinct.</p>
+
+<pre><code>$ python3 test_exception.py -v
+
+test_assert_raises (__main__.ExceptionTest) ... ok
+test_trap_locally (__main__.ExceptionTest) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.000s
+
+OK
+</code></pre>
+
+<h2>Test Fixtures</h2>
+
+<p>Fixtures are resources needed by a test. For example, if you are writing several tests for the same class, those tests all need an instance of that class to use for testing. Other test fixtures include database connections and temporary files (many people would argue that using external resources makes such tests not "unit" tests, but they are still tests and still useful). <code>TestCase</code> includes a special hook to configure and clean up any fixtures needed by your tests. To configure the fixtures, override <code>setUp()</code>. To clean up, override <code>tearDown()</code>.</p>
+
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="k">class</span> <span class="nc">FixturesTest</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'In setUp()'</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fixture</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'In tearDown()'</span><span class="p">)</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixture</span>
+
+    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'in test()'</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fixture</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+<p>When this sample test is run, you can see the order of execution of the fixture and test methods:</p>
+
+<pre><code>$ python3 test_fixtures.py
+
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
+In setUp()
+in test()
+In tearDown()
+</code></pre>
+
+<h2>Test Suites</h2>
+
+<p>The standard library documentation describes how to organize test suites manually. I generally do not use test suites directly, because I prefer to build the suites automatically (these are automated tests, after all). Automating the construction of test suites is especially useful for large code bases, in which related tests are not all in the same place. Tools such as nose make it easier to manage tests when they are spread over multiple files and directories.</p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
