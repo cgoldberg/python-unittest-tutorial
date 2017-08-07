@@ -121,7 +121,7 @@ EF.
 ERROR: test_error (__main__.OutcomesTest)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "test_outcomes.py", line 13, in test_error
+  File "test_outcomes.py", line 12, in test_error
     raise RuntimeError('Test error!')
 RuntimeError: Test error!
 
