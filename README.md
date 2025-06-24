@@ -4,11 +4,11 @@ This is an update to Doug Hellman's excellent PyMOTW article found here:
 
 * [PyMOTW - unittest (2007)](http://www.doughellmann.com/PyMOTW/unittest/index.html)
 
-The code and examples here have been updated by [Corey Goldberg](https://github.com/cgoldberg) to reflect Python 3.3.
+The code and examples here have been updated by [Corey Goldberg](https://github.com/cgoldberg) to reflect Python 3.
 
-further reading:
+Further reading:
 
-* [unittest - Python Standard Library 3.3 Documentation](http://docs.python.org/3.3/library/unittest.html)
+* [unittest - Python Standard Library Documentation](https://docs.python.org/3/library/unittest.html)
   
 ----
 
@@ -18,7 +18,7 @@ Python's `unittest` module, sometimes referred to as 'PyUnit', is based on the X
 
 ## Basic Test Structure
 
-Tests, as defined by unittest, have two parts: code to manage test "fixtures", and the test itself. Individual tests are created by subclassing `TestCase` and overriding or adding appropriate methods. For example,
+Tests, as defined by unittest, have two parts: code to manage test "fixtures", and the test itself. Individual tests are created by subclassing `TestCase` and overriding or adding appropriate methods. For example:
 
 ```python
 import unittest
@@ -207,8 +207,8 @@ OK
 
 The `TestCase` class provides a number of methods to check for and report failures:
 
-* [`TestCase` class](http://docs.python.org/3.3/library/unittest.html#unittest.TestCase)
-* [`assert*` methods](http://docs.python.org/3.3/library/unittest.html#assert-methods)
+* [`TestCase` class](https://docs.python.org/3/library/unittest.html#unittest.TestCase)
+* [`assert*` methods](https://docs.python.org/3/library/unittest.html#assert-methods)
 
 ### Common Assertions
 
@@ -304,8 +304,8 @@ All the assert methods above accept a `msg` argument that, if specified, is used
 
 The `TestCase` class provides methods to check for expected exceptions:
 
-* [`TestCase` class](http://docs.python.org/3.3/library/unittest.html#unittest.TestCase)
-* [`assert*` methods](http://docs.python.org/3.3/library/unittest.html#assert-methods)
+* [`TestCase` class](https://docs.python.org/3/library/unittest.html#unittest.TestCase)
+* [`assert*` methods](https://docs.python.org/3/library/unittest.html#assert-methods)
 
 <table>
   <tr><th>Method</th></tr>
