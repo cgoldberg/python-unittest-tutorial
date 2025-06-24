@@ -2,7 +2,7 @@
 
 This is an update to Doug Hellman's excellent PyMOTW article found here:
 
-* [PyMOTW - unittest (2007)](http://www.doughellmann.com/PyMOTW/unittest/index.html)
+* [PyMOTW - unittest (2007)](https://pymotw.com/2/unittest/index.html)
 
 The code and examples here have been updated by [Corey Goldberg](https://github.com/cgoldberg) to reflect Python 3.
 
